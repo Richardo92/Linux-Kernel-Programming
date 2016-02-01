@@ -1,0 +1,18 @@
+Dear Teacher,
+
+This may be my first C program which is programmed in the Linux. Actually I spent lots of effort on this program and I am confident of it.
+In this introduction, I want to talk about the specialty of my client/server program in addition to your requirements.
+
+First of all,if the client wants to encrypt the file which only exists on his own computer but not on the server's computer,he can send the file to the server.And if the client wants to encrypt a file which does not exist either on the client's computer nor the server's computer,the program will report an error to both of the server and the client.
+
+Secondly,I use a single linked list to prevent several threads encrypting or decrypting the same file at the same time with the help of the mutex lock.
+
+Thirdly, my program can test whether you input the correct command such as "--encrypt" or "--decrypt",if not,it will also report an error.
+
+Finally, I paid more attention to design the human and computer interface. I let the program try its best to remind the client how to use it and I also hope it can be more friendly to users.
+
+In conclusion, though this program may be simple for experienced coders, I really learn a lot of knowledge from this work and I enjoy designing the software to let the computer do what I want it to do. It is a very mysterious and exciting experience for me.Thank you for providing me with such a chance.
+
+Your Student
+Zhidong Liu 
+

@@ -1,0 +1,80 @@
+Please note that the userspace programs recently provided on the module web page are the ones which will be used to test your submission for assignment 3; you are not required to submit userspace programs, only the makefiles, source files etc for the "deviceMessaging.ko" file.
+
+ 
+
+Your module **must** work with the provided userspace programs, in their unmodified form. You are strongly advised to use them for your final testing, although of course you may further enhance them, as required for development of your module.
+
+ 
+
+Please **ensure** you log, in /var/log/kern.log, the major device information from the register_chrdev() call when the module is loaded and the device is created.
+
+
+
+
+To aid the testing and marking process, we need to ask you to submit
+your solution to assignment 3 in a particular format.
+
+You should submit precisely ONE file via Canvas, in TAR format,
+containing a top-level directory "assignment3" in which should
+appear all the files comprising your submission. Do NOT use a complex
+directory structure below this.
+
+The end result of invoking your makefile with the "all" option should be
+precisely ONE kernel module called "deviceMessaging.ko".
+
+The output file MUST be in the top-level directory after your makefile
+completes; if it is not, your work cannot be tested.
+
+I will test using three userspace programs; these programs have been
+provided to you for testing your submission.
+
+The first userspace program is write.c which:
+
+1) open the file "/dev/chardev" for writing
+2) forever attempts to write messages to the file at variable rates and
+with selectable write buffer size using write()
+
+Run the program to see its command-line options.
+
+The second userspace program is read.c which:
+
+1) open the file "/dev/chardev" for reading
+2) forever attempts to read messages from it at variable rates and with
+selectable read buffer size using read();
+
+Run the program to see its command-line options.
+
+The third userspace program is ioctl.c which:
+
+1) opens the file "/dev/chardev"
+2) calls ioctl() to attempt to set a new buffer size based upon user
+input 
+3) closes the file
+
+Run the program to see its command-line options.
+
+
+Your submission will be tested as follows:
+
+1) your makefile will be invoked.
+
+2) the kernel module will be loaded using "insmod deviceMessaging.ko";
+your kernel module should record being loaded in /var/log/kern.log.
+
+3) I will test your module using various combinations of the userspace
+test programs
+
+4) The kernel module will be unloaded using "rmmod deviceMessaging";
+your kernel module should record being unloaded in /var/log/kern.log.
+
+Please note carefully the following:
+
+a) It is very important that your module logs the major device number
+allocated by the kernel in the register_chrdev() call, so that I can
+create the /dev/chardev file using mknod().
+
+b) Clearly, the kernel should not crash at any time.
+
+c) If a read() dequeues a message, but the message is longer than the
+read buffer supplied, the excess message may be discarded; the unit of
+IO for this device is the MESSAGE!

@@ -1,0 +1,54 @@
+Following on from last week's lab session:
+
+In first aid, one is taught that it is important to ensure your own safety, before rendering aid to others. The same principle extends very well to operating system implementation.
+
+A primary function of the OS is to protect itself against unwitting, or malicious, user activity, and to prevent itself being compromised by such activity. You might, therefore, wish to consider that data written into your module is "reasonable", and that the processing you apply to it is robust, irrespective of what the user provides. For example:
+
+User calls write() with a length of 0 or less; User calls write() with a huge length (e.g. 1Gb); user passes arbitrary or random data in the write() buffer.
+
+You might also choose to perform all your memory allocation in user context (i.e. within the context of the write() call), so that the firewall hook code, having identified a TCP SYN+ACK packet,  is just a data scanning, manipulation and updating function.
+
+Steve
+
+
+
+
+I am a draconian employer, and the objective of exercise 4 is to monitor my employee's usage of the internet to check what IP address/port combinations they are accessing.
+
+The list of ports of interest written into the module defines the ports for which I require to accumulate the associated IP address(es). I also wish to monitor the local port address used for the connection.
+
+So, if I define my list of interest ports as: 80,110,25
+
+and my employee were to (a) browse www.google.com (Links to an external site.) (IP address a.b.c.d), (b) browse www.amazon.com (Links to an external site.) (IP address e.f.g.h) and then (c) pick up his/her email from Force9 (IP address i.j.k.l), then the log output might be, for example:
+
+80:35901:a.b.c.d
+
+80:35903:e.f.g.h
+
+110:35906:i.j.k.l
+
+You do this by reference by examining the received SYN+ACK packet sent by the remote machine in response to the SYN packet sent.
+
+
+
+
+
+
+In order to make it possible to test your code it is necessary to change the way the kernel module works. I have updated the specification of the exercise and also the corresponding kernel module and user space program.
+
+Because the virtual machine which is used for the module uses network
+address translation, no incoming connections are possible by
+default. Hence you should use test your kernel module by initiating
+outgoing connections from your virtual machine via
+telnet. Your kernel module should then check for the
+acknowledgement packet sent in reply to the first outgoing
+packet. The destination port of this acknowledgement packet is the
+port on the virtual machine which is used for this connection. Hence
+in your module the role of destination and source port are
+swapped---see the example module which rejects all connections to port
+80 (in other words, web-traffic. We will use outgoing connections for
+marking your code as well.
+
+
+
+You should  keep a copy of iptest.c AS PROVIDED, even if you modify it for you testing, as this program will be used  to test your code.
